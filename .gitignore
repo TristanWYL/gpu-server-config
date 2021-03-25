@@ -2,3 +2,6 @@
 *.csv
 logs.txt
 user-data-dir-code/*
+report/*
+__pycache__/*
+*.sh

@@ -5,11 +5,6 @@ quota_for_home_GB = 20
 quota_for_ssd_GB = 300
 
 
-def get_domain_users():
-    import subprocess
-    response = subprocess.check_output(['net', 'ads', 'USER'])
-    return response.decode("utf-8").split()
-
 # generate disk quota control cmdlets
 def gen_setquota(user):
     # create folders if nonexistance
@@ -22,13 +17,8 @@ def gen_setquota(user):
 
 if __name__ == "__main__":
     # Get users name by net ads USER
-    users = get_domain_users()
-    # exclude some users such as test...
-    users_ex = ['Guest', "test0303", "hcclcitrix", "hccladmin"]
-    for user in users_ex:
-        if user in users:
-            users.remove(user)
-    print("Home directories for domain users after excluding some unused:")
+    from util import get_domain_users_monitored
+    users = get_domain_users_monitored()
 
     user_fullname = []
     for user in users:
