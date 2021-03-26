@@ -5,3 +5,4 @@ user-data-dir-code/*
 report/*
 __pycache__/*
 *.sh
+monitored_user_list.txt

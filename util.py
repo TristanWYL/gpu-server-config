@@ -1,5 +1,5 @@
-
-
+#!/opt/anaconda3/bin/python
+#%%
 def get_domain_users():
     import subprocess
     response = subprocess.check_output(['net', 'ads', 'USER'])
@@ -16,3 +16,10 @@ def get_domain_users_monitored():
     return users
 
 
+#%%
+if __name__ == "__main__":
+    print(get_domain_users())
+
+
+
+# %%

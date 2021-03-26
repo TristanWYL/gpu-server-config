@@ -6,10 +6,15 @@ from pandas.errors import EmptyDataError
 import os
 import datetime as dt
 
-report_dir = os.path.dirname(__file__)+os.sep+"report"+os.sep
-traffic_file = report_dir+"traffic_record_" + dt.datetime.today().strftime("%Y_%m") +".csv"
+interval_min = 5
+lines_command_history = interval_min * 100
 
-def get_new_record():
+report_dir = os.path.dirname(__file__)+os.sep+"report"+os.sep
+file_timestamp = dt.datetime.today()
+traffic_file = report_dir+"traffic_record_" + file_timestamp.strftime("%Y_%m") +".csv"
+cmdhist_file = report_dir+"cmdhist_record_" + file_timestamp.strftime("%Y_%m") +".csv"
+
+def get_new_traffic_record():
     response = subprocess.check_output("/sbin/iptables -t mangle -L OUTPUT -x -v".split())
     response_dec = response.decode("utf-8").split("\n")
     new_row = {}
@@ -25,29 +30,44 @@ def get_new_record():
 
 #%%
 # get history commands by user
-import subprocess
-def get_history_commands_by_user(user: str, dt_start: dt.datetime, dt_end: dt.datetime=None):
+def get_history_commands_by_user(user: str, dt_start: dt.datetime):
     file_name = f"/home/HCCLTBRNET/{user}/.bash_history"
-    cmds = []
+    if not os.path.exists(file_name):
+        return []
+
+    lines = []
     with open(file_name, "r") as f:
-        cmdlets = []
-        _start = None
-        for line in f:
-            if line.startswith("#"):
-                _start = dt.datetime.fromtimestamp(line.strip("#"))
-            else:
-                cmdlets.append(line)
-            if dt_end is not None:
-                if _start > dt_end:
-                    break
-            if _start is not None:
-                cmds.extend(cmdlets)
-    return cmds
+        lines = f.readlines()[-lines_command_history:]
+
+    start_epoch = dt_start.timestamp()
+    cmdlets = []
+    for ind, line in enumerate(lines):
+        if line.startswith("#"):
+            if int(line.strip("#")) >= start_epoch:
+                # start recording
+                break
+    else:
+        return cmdlets
+
+    for i in range(ind+1, len(lines)):
+        if lines[i].startswith("#"):
+            continue
+        cmdlets.append(lines[i].strip("\n"))
+    return cmdlets
     # response = subprocess.check_output(["sudo", "-u", user, "bash -i <<<history"])
     # response = subprocess.check_output(["sudo", "-u", user, 'bash',  '-i', '<<<history'])
     # response = subprocess.check_output(["sudo", "-u", user, 'bash',  '-i', '-c', 'history -r; history'])
     # subprocess.check_output(f"exit".split())
-# print(get_history_commands_by_user("peter"))
+# print(get_history_commands_by_user("peter", dt.datetime.now()-dt.timedelta(hours=4)))
+
+def get_new_cmdhist_record(dt_start: dt.datetime):
+    with open(os.path.dirname(__file__)+os.sep+"monitored_user_list.txt", "r") as f:
+        users = f.read().split("\n")
+    new_row = {}
+    for u in users:
+        cmdlets = get_history_commands_by_user(u, dt_start)
+        new_row[u] = ", ".join(cmdlets)
+    return new_row
 #%%
 if __name__ == "__main__":
     # print("*********  ", os.path.basename(__file__)+"  ",dt.datetime.now(), "  *********")
@@ -57,8 +77,8 @@ if __name__ == "__main__":
         records_pre = pd.read_csv(traffic_file, header=[0,1], index_col=0)
     except (EmptyDataError, FileNotFoundError) as e:
         records_pre = None
-    _dt, _new_row = get_new_record()
-    new_record = pd.DataFrame(_new_row, index=[_dt])
+    dt_current, _new_row = get_new_traffic_record()
+    new_record = pd.DataFrame(_new_row, index=[dt_current])
     
     if records_pre is None:
         records = new_record
@@ -70,8 +90,19 @@ if __name__ == "__main__":
     subprocess.check_output("/sbin/iptables -t mangle -Z".split())
 
     # record the cmdlets
-    # from util import get_domain_users_monitored
-    # users = get_domain_users_monitored()
+    try:
+        cmdhist_records_pre = pd.read_csv(cmdhist_file, index_col=0)
+    except (EmptyDataError, FileNotFoundError) as e:
+        cmdhist_records_pre = None
+    start_dt = dt_current - dt.timedelta(minutes=interval_min)
+    _new_cmdhist_record = get_new_cmdhist_record(start_dt)
+    new_cmdhist_record = pd.DataFrame(_new_cmdhist_record, index=[dt_current])
+    if cmdhist_records_pre is None:
+        cmdhist_records = new_cmdhist_record
+    else:
+        cmdhist_records_merge = [cmdhist_records_pre, new_cmdhist_record]
+        cmdhist_records = pd.concat(cmdhist_records_merge)
+    cmdhist_records.to_csv(cmdhist_file)
     
 
     

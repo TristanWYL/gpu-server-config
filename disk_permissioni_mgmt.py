@@ -11,11 +11,6 @@ import subprocess
 def get_immediate_subdirectories(a_dir) -> List[str]:
     return [name for name in os.listdir(a_dir) if os.path.isdir(os.path.join(a_dir,name))]
 
-def get_domain_users():
-    import subprocess
-    response = subprocess.check_output(['net', 'ads', 'USER'])
-    return response.decode("utf-8").split()
-
 disk = "/media/storage-ssd"
 existing_folders = get_immediate_subdirectories(disk)
 
@@ -27,10 +22,11 @@ def gen_folder_mgmt_by_user(user):
         subprocess.run(f"chmod 755 {new_dir}".split())
         subprocess.run(f"chown {user}:root {new_dir}".split())
 
-# print(get_domain_users())
-if __name__ == "__main__":
+
+def main():
     # Get users name by net ads USER
-    users = get_domain_users()
+    from util import get_domain_users_monitored
+    users = get_domain_users_monitored()
     # exclude some users such as test...
     users_ex = ['Guest', "test0303", "hcclcitrix", "hccladmin"]
     for user in users_ex:

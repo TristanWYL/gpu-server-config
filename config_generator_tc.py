@@ -37,8 +37,7 @@ def reset_tc():
     return comlets
 
 
-# print(get_domain_users())
-if __name__ == "__main__":
+def main():
     # Get users name by net ads USER
     from util import get_domain_users_monitored
     users = get_domain_users_monitored()

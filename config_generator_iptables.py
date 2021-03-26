@@ -20,7 +20,7 @@ def gen_tc():
 
     # whitelist packets running internally
     comlets.append(f"\n#whitelist packets running internally")
-    comlets.append(f"iptables -t mangle -A OUTPUT -p all -o {interface} -d 192.168.150.0/24 -j ACCEPT")
+    comlets.append(f"iptables -t mangle -A OUTPUT -p all -d 192.168.150.0/24 -j ACCEPT")
 
     # whitelist package without any payloads
     comlets.append(f"\n#whitelist tcp package without any payloads")
@@ -45,7 +45,7 @@ def gen_tc_by_user(user:str, seq:int):
     comlets.append(f"\n# tc for {user}:{seq}")
     # whitelist package without any payloads
     comlets.append(f"# whitelist tcp package without any payloads")
-    comlets.append(f"iptables -t mangle -A OUTPUT -p tcp -m u32 ! --u32 \"0>>22&0x3C@12>>26&0x3C@0=0:4294967295\" -m owner --uid-owner {user} -o {interface} -j ACCEPT")
+    comlets.append(f"iptables -t mangle -A OUTPUT -p tcp -o {interface} -m u32 ! --u32 \"0>>22&0x3C@12>>26&0x3C@0=0:4294967295\" -m owner --uid-owner {user} -j ACCEPT")
     comlets.append(f"iptables -t mangle -A OUTPUT -p all -o {interface} -m owner --uid-owner {user} -j CLASSIFY --set-class 1:{seq}")
     comlets.append(f"iptables -t mangle -A OUTPUT -p all -o {interface} -m owner --uid-owner {user} -j ACCEPT")
     return comlets
@@ -62,13 +62,7 @@ def reset_tc():
     return comlets
 
 
-def get_domain_users():
-    import subprocess
-    response = subprocess.check_output(['net', 'ads', 'USER'])
-    return response.decode("utf-8").split()
-
-# print(get_domain_users())
-if __name__ == "__main__":
+def main():
     from util import get_domain_users_monitored
     # Get users name by net ads USER
     users = get_domain_users_monitored()
@@ -100,3 +94,5 @@ if __name__ == "__main__":
     
 
 # %%
+if __name__ == "__main__":
+    main()

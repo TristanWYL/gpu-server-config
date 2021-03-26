@@ -94,3 +94,7 @@ setquota -u hccltbrnet\\katy 307200M 307200M 0 0 /media/storage-ssd
 # setquota for hccltbrnet\\cherry.lui.bdda.cuhk
 setquota -u hccltbrnet\\cherry.lui.bdda.cuhk 20480M 20480M 0 0 /home
 setquota -u hccltbrnet\\cherry.lui.bdda.cuhk 307200M 307200M 0 0 /media/storage-ssd
+
+# setquota for hccltbrnet\\jwkang.cuhk
+setquota -u hccltbrnet\\jwkang.cuhk 20480M 20480M 0 0 /home
+setquota -u hccltbrnet\\jwkang.cuhk 307200M 307200M 0 0 /media/storage-ssd

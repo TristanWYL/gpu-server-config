@@ -73,3 +73,6 @@
 
 # tc for hccltbrnet\\cherry.lui.bdda.cuhk:24
 /sbin/tc class add dev eno1 parent 1:0 classid 1:24 htb rate 10kbps ceil 10kbps
+
+# tc for hccltbrnet\\jwkang.cuhk:25
+/sbin/tc class add dev eno1 parent 1:0 classid 1:25 htb rate 10kbps ceil 10kbps
