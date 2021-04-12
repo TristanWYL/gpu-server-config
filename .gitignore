@@ -6,3 +6,4 @@ report/*
 __pycache__/*
 *.sh
 monitored_user_list.txt
+test.py

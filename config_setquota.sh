@@ -1,8 +1,4 @@
 
-# setquota for hccltbrnet\\Administrator
-setquota -u hccltbrnet\\Administrator 20480M 20480M 0 0 /home
-setquota -u hccltbrnet\\Administrator 307200M 307200M 0 0 /media/storage-ssd
-
 # setquota for hccltbrnet\\krbtgt
 setquota -u hccltbrnet\\krbtgt 20480M 20480M 0 0 /home
 setquota -u hccltbrnet\\krbtgt 307200M 307200M 0 0 /media/storage-ssd

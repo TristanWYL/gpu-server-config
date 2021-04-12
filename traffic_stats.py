@@ -5,11 +5,11 @@ import pandas as pd
 from pandas.errors import EmptyDataError
 import os
 import datetime as dt
+from util import report_dir
 
 interval_min = 5
 lines_command_history = interval_min * 100
 
-report_dir = os.path.dirname(__file__)+os.sep+"report"+os.sep
 file_timestamp = dt.datetime.today()
 traffic_file = report_dir+"traffic_record_" + file_timestamp.strftime("%Y_%m") +".csv"
 cmdhist_file = report_dir+"cmdhist_record_" + file_timestamp.strftime("%Y_%m") +".csv"
@@ -31,6 +31,7 @@ def get_new_traffic_record():
 #%%
 # get history commands by user
 def get_history_commands_by_user(user: str, dt_start: dt.datetime):
+    user = user.lower()
     file_name = f"/home/HCCLTBRNET/{user}/.bash_history"
     if not os.path.exists(file_name):
         return []
@@ -65,6 +66,8 @@ def get_new_cmdhist_record(dt_start: dt.datetime):
         users = f.read().split("\n")
     new_row = {}
     for u in users:
+        if u == "":
+            continue
         cmdlets = get_history_commands_by_user(u, dt_start)
         new_row[u] = ", ".join(cmdlets)
     return new_row
