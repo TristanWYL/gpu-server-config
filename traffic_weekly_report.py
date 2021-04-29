@@ -160,7 +160,7 @@ if __name__ == "__main__":
         "khwong@se.cuhk.edu.hk",
         "wkleung@se.cuhk.edu.hk", 
         "tristan_wyl@cuhk.edu.hk"]
-    title = "Weekly Report of the Network Traffic of the TBS GPU Server"
+    title = "[NO REPLY] Weekly Report of the Network Traffic of the TBS GPU Server"
     content = "Please open the .html file attached with a browser. For well loading the html file, an active internet connection is required."
     send_email(receivers, title, content, file_full_path)
 

@@ -42,6 +42,30 @@ def get_history_commands_by_user(user: str, dt_start: dt.datetime):
 
     start_epoch = dt_start.timestamp()
     cmdlets = []
+
+    # 2021-04-29
+    # add a sorting feature using pandas series 
+    if len(lines) == 0 or len(lines) == 1:
+        return cmdlets
+
+    if not lines[0].startswith("#"):
+        lines = lines[1:]
+
+    _cmd_hist_dict = {}
+    for i in range(int(len(lines)/2)):
+        _cmd_hist_dict[int(lines[i*2].strip("#"))] = lines[i*2+1].strip("\n")
+    
+    _cmd_hist_df = pd.Series(_cmd_hist_dict)
+    
+    # sort
+    _cmd_hist_df = _cmd_hist_df.sort_index()
+
+    # selection by label
+    cmdlets = list(_cmd_hist_df.loc[start_epoch:].values)
+    return cmdlets
+
+
+    # deprecated from 2021-04-29
     for ind, line in enumerate(lines):
         if line.startswith("#"):
             if int(line.strip("#")) >= start_epoch:
