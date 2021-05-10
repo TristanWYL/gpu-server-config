@@ -1,5 +1,6 @@
 #!/opt/anaconda3/bin/python
 # refer to: https://www.digitalocean.com/community/tutorials/how-to-set-filesystem-quotas-on-ubuntu-18-04
+import os
 
 quota_for_home_GB = 20
 quota_for_ssd_GB = 300
@@ -31,5 +32,5 @@ def main():
     for index, name in enumerate(user_fullname, start=1):
         comlets.extend(gen_setquota(name))
 
-    with open("config_setquota.sh", "w") as f:
+    with open(os.path.dirname(__file__)+os.sep+"config_setquota.sh", "w") as f:
         f.write("\n".join(comlets))

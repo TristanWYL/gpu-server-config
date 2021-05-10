@@ -23,7 +23,7 @@ def main():
 
     # update the domain user list
     users = get_domain_users_monitored()
-    with open("monitored_user_list.txt", "w") as f:
+    with open(os.path.dirname(__file__)+os.sep+"monitored_user_list.txt", "w") as f:
         f.write("\n".join(users)+"\n")
 
 

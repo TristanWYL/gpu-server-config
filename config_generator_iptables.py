@@ -82,7 +82,7 @@ def main():
     # save the iptables
     comlets.append("netfilter-persistent save")
 
-    with open("config_iptables.sh", "w") as f:
+    with open(os.path.dirname(__file__)+os.sep+"config_iptables.sh", "w") as f:
         f.write("\n".join(comlets))
 
     

@@ -53,7 +53,7 @@ def main():
     for index, name in enumerate(user_fullname, start=1):
         comlets.extend(gen_tc_by_user(name, index))
 
-    with open("config_tc.sh", "w") as f:
+    with open(os.path.dirname(__file__)+os.sep+"config_tc.sh", "w") as f:
         f.write("\n".join(comlets))
 
     
