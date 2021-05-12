@@ -5,6 +5,7 @@ from typing import List
 def get_immediate_subdirectories(a_dir) -> List[str]:
     return [name for name in os.listdir(a_dir) if os.path.isdir(os.path.join(a_dir,name))]
 import subprocess
+from config import config_tc_exception
 
 
 # parameters
@@ -22,7 +23,11 @@ blacklist = []
 def gen_tc_by_user(user:str, seq:int):
     comlets = []
     comlets.append(f"\n# tc for {user}:{seq}")
-    comlets.append(f"/sbin/tc class add dev {interface} parent 1:0 classid 1:{seq} htb rate {max_bandwidth_kbps_for_each_user}kbps ceil {max_bandwidth_kbps_for_each_user}kbps")
+    _u_simple = user.strip().split("\\")[-1]
+    _bandwidth = max_bandwidth_kbps_for_each_user
+    if _u_simple in config_tc_exception:
+        _bandwidth = config_tc_exception[_u_simple]
+    comlets.append(f"/sbin/tc class add dev {interface} parent 1:0 classid 1:{seq} htb rate {_bandwidth}kbps ceil {_bandwidth}kbps")
     return comlets
 
 
@@ -65,3 +70,5 @@ def main():
     
 
 # %%
+if __name__ == "__main__":
+    main()
