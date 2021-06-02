@@ -1,4 +1,8 @@
 
+# setquota for hccltbrnet\\Administrator
+setquota -u hccltbrnet\\Administrator 20480M 20480M 0 0 /home
+setquota -u hccltbrnet\\Administrator 307200M 307200M 0 0 /media/storage-ssd
+
 # setquota for hccltbrnet\\krbtgt
 setquota -u hccltbrnet\\krbtgt 20480M 20480M 0 0 /home
 setquota -u hccltbrnet\\krbtgt 307200M 307200M 0 0 /media/storage-ssd
@@ -94,3 +98,35 @@ setquota -u hccltbrnet\\cherry.lui.bdda.cuhk 307200M 307200M 0 0 /media/storage-
 # setquota for hccltbrnet\\jwkang.cuhk
 setquota -u hccltbrnet\\jwkang.cuhk 20480M 20480M 0 0 /home
 setquota -u hccltbrnet\\jwkang.cuhk 307200M 307200M 0 0 /media/storage-ssd
+
+# setquota for hccltbrnet\\helper01
+setquota -u hccltbrnet\\helper01 20480M 20480M 0 0 /home
+setquota -u hccltbrnet\\helper01 307200M 307200M 0 0 /media/storage-ssd
+
+# setquota for hccltbrnet\\helper02
+setquota -u hccltbrnet\\helper02 20480M 20480M 0 0 /home
+setquota -u hccltbrnet\\helper02 307200M 307200M 0 0 /media/storage-ssd
+
+# setquota for hccltbrnet\\luhui.cuhk
+setquota -u hccltbrnet\\luhui.cuhk 20480M 20480M 0 0 /home
+setquota -u hccltbrnet\\luhui.cuhk 307200M 307200M 0 0 /media/storage-ssd
+
+# setquota for hccltbrnet\\mlwu.cuhk
+setquota -u hccltbrnet\\mlwu.cuhk 20480M 20480M 0 0 /home
+setquota -u hccltbrnet\\mlwu.cuhk 307200M 307200M 0 0 /media/storage-ssd
+
+# setquota for hccltbrnet\\kzhang.cuhk
+setquota -u hccltbrnet\\kzhang.cuhk 20480M 20480M 0 0 /home
+setquota -u hccltbrnet\\kzhang.cuhk 307200M 307200M 0 0 /media/storage-ssd
+
+# setquota for hccltbrnet\\gnli.cuhk
+setquota -u hccltbrnet\\gnli.cuhk 20480M 20480M 0 0 /home
+setquota -u hccltbrnet\\gnli.cuhk 307200M 307200M 0 0 /media/storage-ssd
+
+# setquota for hccltbrnet\\zye.cuhk
+setquota -u hccltbrnet\\zye.cuhk 20480M 20480M 0 0 /home
+setquota -u hccltbrnet\\zye.cuhk 307200M 307200M 0 0 /media/storage-ssd
+
+# setquota for hccltbrnet\\zding
+setquota -u hccltbrnet\\zding 20480M 20480M 0 0 /home
+setquota -u hccltbrnet\\zding 307200M 307200M 0 0 /media/storage-ssd

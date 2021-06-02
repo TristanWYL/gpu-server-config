@@ -6,6 +6,9 @@ from pandas.errors import EmptyDataError
 import os
 import datetime as dt
 from util import report_dir
+import re
+from collections import defaultdict
+
 
 interval_min = 5
 lines_command_history = interval_min * 100
@@ -48,13 +51,27 @@ def get_history_commands_by_user(user: str, dt_start: dt.datetime):
     if len(lines) == 0 or len(lines) == 1:
         return cmdlets
 
-    if not lines[0].startswith("#"):
-        lines = lines[1:]
+    # if not lines[0].startswith("#"):
+    #     lines = lines[1:]
 
-    _cmd_hist_dict = {}
-    for i in range(int(len(lines)/2)):
-        _cmd_hist_dict[int(lines[i*2].strip("#"))] = lines[i*2+1].strip("\n")
+    _cmd_hist_dict: Dict[int, str] = {}
+    # for i in range(int(len(lines)/2)):
+    #     _cmd_hist_dict[int(lines[i*2].strip("#"))] = lines[i*2+1].strip("\n")
     
+    _ts_pattern = r"^#1[6|7][0-9]{8}\n$"
+    _ts = None
+    for _l in lines:
+        if re.match(_ts_pattern, _l):
+            _ts = int(_l.strip("#"))
+        elif _ts:
+            if _ts in _cmd_hist_dict:
+                _cmd_hist_dict[_ts] = _cmd_hist_dict[_ts] + ", " + _l.strip('\n')
+            else:
+                _cmd_hist_dict[_ts] = _l.strip("\n")
+
+    if len(_cmd_hist_dict) == 0:
+        return cmdlets
+
     _cmd_hist_df = pd.Series(_cmd_hist_dict)
     
     # sort
