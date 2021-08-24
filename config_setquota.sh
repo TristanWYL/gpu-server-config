@@ -130,3 +130,11 @@ setquota -u hccltbrnet\\zye.cuhk 307200M 307200M 0 0 /media/storage-ssd
 # setquota for hccltbrnet\\zding
 setquota -u hccltbrnet\\zding 20480M 20480M 0 0 /home
 setquota -u hccltbrnet\\zding 307200M 307200M 0 0 /media/storage-ssd
+
+# setquota for hccltbrnet\\angelto.cuhk
+setquota -u hccltbrnet\\angelto.cuhk 20480M 20480M 0 0 /home
+setquota -u hccltbrnet\\angelto.cuhk 307200M 307200M 0 0 /media/storage-ssd
+
+# setquota for hccltbrnet\\garyleung.cuhk
+setquota -u hccltbrnet\\garyleung.cuhk 20480M 20480M 0 0 /home
+setquota -u hccltbrnet\\garyleung.cuhk 307200M 307200M 0 0 /media/storage-ssd

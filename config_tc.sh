@@ -72,7 +72,7 @@
 /sbin/tc class add dev eno1 parent 1:0 classid 1:23 htb rate 10kbps ceil 10kbps
 
 # tc for hccltbrnet\\cherry.lui.bdda.cuhk:24
-/sbin/tc class add dev eno1 parent 1:0 classid 1:24 htb rate 500000kbps ceil 500000kbps
+/sbin/tc class add dev eno1 parent 1:0 classid 1:24 htb rate 10kbps ceil 10kbps
 
 # tc for hccltbrnet\\jwkang.cuhk:25
 /sbin/tc class add dev eno1 parent 1:0 classid 1:25 htb rate 10kbps ceil 10kbps
@@ -100,3 +100,9 @@
 
 # tc for hccltbrnet\\zding:33
 /sbin/tc class add dev eno1 parent 1:0 classid 1:33 htb rate 10kbps ceil 10kbps
+
+# tc for hccltbrnet\\angelto.cuhk:34
+/sbin/tc class add dev eno1 parent 1:0 classid 1:34 htb rate 10kbps ceil 10kbps
+
+# tc for hccltbrnet\\garyleung.cuhk:35
+/sbin/tc class add dev eno1 parent 1:0 classid 1:35 htb rate 10kbps ceil 10kbps

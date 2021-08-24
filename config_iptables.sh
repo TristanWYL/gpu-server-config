@@ -205,4 +205,16 @@ iptables -t mangle -A OUTPUT -p all -o eno1 -m owner --uid-owner hccltbrnet\\zye
 iptables -t mangle -A OUTPUT -p tcp -o eno1 -m u32 ! --u32 "0>>22&0x3C@12>>26&0x3C@0=0:4294967295" -m owner --uid-owner hccltbrnet\\zding -j ACCEPT
 iptables -t mangle -A OUTPUT -p all -o eno1 -m owner --uid-owner hccltbrnet\\zding -j CLASSIFY --set-class 1:33
 iptables -t mangle -A OUTPUT -p all -o eno1 -m owner --uid-owner hccltbrnet\\zding -j ACCEPT
+
+# tc for hccltbrnet\\angelto.cuhk:34
+# whitelist tcp package without any payloads
+iptables -t mangle -A OUTPUT -p tcp -o eno1 -m u32 ! --u32 "0>>22&0x3C@12>>26&0x3C@0=0:4294967295" -m owner --uid-owner hccltbrnet\\angelto.cuhk -j ACCEPT
+iptables -t mangle -A OUTPUT -p all -o eno1 -m owner --uid-owner hccltbrnet\\angelto.cuhk -j CLASSIFY --set-class 1:34
+iptables -t mangle -A OUTPUT -p all -o eno1 -m owner --uid-owner hccltbrnet\\angelto.cuhk -j ACCEPT
+
+# tc for hccltbrnet\\garyleung.cuhk:35
+# whitelist tcp package without any payloads
+iptables -t mangle -A OUTPUT -p tcp -o eno1 -m u32 ! --u32 "0>>22&0x3C@12>>26&0x3C@0=0:4294967295" -m owner --uid-owner hccltbrnet\\garyleung.cuhk -j ACCEPT
+iptables -t mangle -A OUTPUT -p all -o eno1 -m owner --uid-owner hccltbrnet\\garyleung.cuhk -j CLASSIFY --set-class 1:35
+iptables -t mangle -A OUTPUT -p all -o eno1 -m owner --uid-owner hccltbrnet\\garyleung.cuhk -j ACCEPT
 netfilter-persistent save

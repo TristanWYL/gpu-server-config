@@ -51,6 +51,26 @@ def gen_tc_by_user(user:str, seq:int):
     return comlets
 
 
+from enum import Enum
+
+
+class OtherUser(Enum):
+    ROOT = 1
+    OTHERS = 2
+
+
+def gen_tc_for_others(user: OtherUser):
+    comlets = []
+    comlets.append(f"\n# tc for {OtherUser}")
+    # whitelist package without any payloads
+    comlets.append(f"# whitelist tcp package without any payloads")
+    if user == OtherUser.ROOT:
+        comlets.append(f"iptables -t mangle -A OUTPUT -p tcp -o {interface} -m u32 ! --u32 \"0>>22&0x3C@12>>26&0x3C@0=0:4294967295\" -m owner --uid-owner root -j ACCEPT")
+        comlets.append(f"iptables -t mangle -A OUTPUT -p all -o {interface} -m owner --uid-owner root -j ACCEPT")
+    elif user == OtherUser.OTHERS:
+        comlets.append(f"iptables -t mangle -A OUTPUT -p tcp -o {interface} -m u32 ! --u32 \"0>>22&0x3C@12>>26&0x3C@0=0:4294967295\" -j ACCEPT")
+        comlets.append(f"iptables -t mangle -A OUTPUT -p all -o {interface} -j ACCEPT")
+    return comlets
 
 
 # reset the config

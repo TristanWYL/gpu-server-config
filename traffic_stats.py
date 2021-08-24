@@ -58,7 +58,7 @@ def get_history_commands_by_user(user: str, dt_start: dt.datetime):
     # for i in range(int(len(lines)/2)):
     #     _cmd_hist_dict[int(lines[i*2].strip("#"))] = lines[i*2+1].strip("\n")
     
-    _ts_pattern = r"^#1[6|7][0-9]{8}\n$"
+    _ts_pattern = r"^#1[67][0-9]{8}\n$"
     _ts = None
     for _l in lines:
         if re.match(_ts_pattern, _l):
